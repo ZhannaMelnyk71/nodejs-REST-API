@@ -20,7 +20,13 @@ const userSchema = new Schema({
     enum: subscriptionList,
     default: "starter"
   },
-  token: String
+  owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+    },
+  token: {
+        type: String,
+    }
 }, { versionKey: false, timestamps: true });
 
 

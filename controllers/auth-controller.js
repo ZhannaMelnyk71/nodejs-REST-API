@@ -22,8 +22,8 @@ const signup = async(req, res)=> {
 
     res.status(201).json({
       user: {
-        email: user.email,
-        subscription: user.subscription,}
+        email: newUser.email,
+        subscription: newUser.subscription,}
     })
 }
 
@@ -43,7 +43,9 @@ const signin = async(req, res)=> {
         id: user._id,
     }
 
-    const token = jwt.sign(payload, JWT_SECRET, {expiresIn: "23h"});
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
+    await User.findByIdAndUpdate(user._id, {token});
+
 
     res.json({
       token,
@@ -53,7 +55,27 @@ const signin = async(req, res)=> {
     })
 }
 
+
+const getCurrent = (req, res)=> {
+    const {email} = req.user;
+
+    res.json({
+        email,
+    })
+}
+
+const signout = async(req, res) => {
+    const {_id} = req.user;
+    await User.findByIdAndUpdate(_id, {token: ""});
+
+    res.json({
+        message: "Signout success"
+    })
+}
+
 export default {
     signup: ctrlWrapper(signup),
     signin: ctrlWrapper(signin),
+    getCurrent: ctrlWrapper(getCurrent),
+    signout: ctrlWrapper(signout),
 }
