@@ -57,10 +57,11 @@ const signin = async(req, res)=> {
 
 
 const getCurrent = (req, res)=> {
-    const {email} = req.user;
+    const {email, subscription} = req.user;
 
     res.json({
-        email,
+      email,
+      subscription,
     })
 }
 
@@ -68,9 +69,10 @@ const signout = async(req, res) => {
     const {_id} = req.user;
     await User.findByIdAndUpdate(_id, {token: ""});
 
-    res.json({
-        message: "Signout success"
-    })
+  res.status(204).json();
+    // res.json(
+    //     message: "Signout success"
+    // )
 }
 
 export default {
