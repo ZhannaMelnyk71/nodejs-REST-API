@@ -17,7 +17,7 @@ const contactSchema = new Schema(  {
     favorite: {
       type: Boolean,
       default: false,
-    },
+  },
 }, { versionKey: false, timestamps: true });
   
 contactSchema.pre("findOneAndUpdate", handleUpdateValidate);
