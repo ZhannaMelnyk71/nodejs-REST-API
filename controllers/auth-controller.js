@@ -11,7 +11,7 @@ import { HttpError } from "../helpers/index.js";
 
 import { ctrlWrapper } from "../decorators/index.js";
 
-import Gravatar from '@gravatar/js'
+import gravatar from "gravatar";
 
 const { JWT_SECRET } = process.env;
 
@@ -25,7 +25,7 @@ const signup = async(req, res)=> {
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
-    const avatarURL = Gravatar(email)
+    const avatarURL = gravatar.url(email);
     const newUser = await User.create({...req.body, password: hashPassword, avatarURL});
 
     res.status(201).json({
